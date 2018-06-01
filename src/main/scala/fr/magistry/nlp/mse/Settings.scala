@@ -1,8 +1,12 @@
 package fr.magistry.nlp.mse
 
+import java.io.File
+
 import com.typesafe.config.ConfigException.{Missing, WrongType}
 import com.typesafe.config.ConfigFactory
 import fr.magistry.nlp.datatypes._
+import fr.magistry.nlp.mse
+import fr.magistry.nlp.utils.Mimick
 
 /**
   * Singleton object to handle configuration options
@@ -71,4 +75,52 @@ object Settings {
         "no raw corpus specified"
       )
   }
+
+
+  object embeddings {
+
+    lazy val file: File =
+      wrapErrorReport(
+        { key => new File(cfg.getString(key)) },
+        "embeddings.file",
+        "pb with embeddings file configuration"
+      )
+
+    lazy val ndim: Int =
+      wrapErrorReport(
+        { key => cfg.getInt(key) },
+        "embeddings.ndim",
+        "number of dimensions for embeddings"
+      )
+    lazy val ws: Int =
+      wrapErrorReport(
+        { key => cfg.getInt(key) },
+        "embeddings.ws",
+        "window size for embeddings"
+      )
+    lazy val nbOccMin: Int =
+      wrapErrorReport(
+        { key => cfg.getInt(key) },
+        "embeddings.nboccmin",
+        "minimum number of occurrences for embeddings"
+      )
+
+    lazy val oovFile: File =
+      wrapErrorReport(
+        { key => new File(cfg.getString(key)) },
+        "embeddings.oovfile",
+        "problem with oov file configuration"
+      )
+  }
+
+  object yaset {
+    lazy val model: File =
+      wrapErrorReport(
+        { key => new File(cfg.getString(key)) },
+        "yaset.model",
+        "model zip file not specified"
+      )
+  }
+
+
 }

@@ -26,6 +26,7 @@ def read_text_embs(filename):
     embs = []
     with codecs.open(filename, "r", "utf-8") as f:
         for line in f:
+            print line
             split = line.split()
             if len(split) > 2:
                 words.append(split[0])

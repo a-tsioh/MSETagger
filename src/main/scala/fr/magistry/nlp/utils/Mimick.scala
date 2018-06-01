@@ -71,5 +71,36 @@ class Mimick(python2: String,
     process.Process.apply(cmd2).!
     embeddings.fromFile(outputFile.getAbsoluteFile)
   }
+
+  /*
+  def train(embeddings: Embeddings): Unit = {
+    val workDir = File.createTempFile("restaureTmp","Mimick")
+    workDir.delete()
+    workDir.mkdir()
+    val Array(modelScript, makeDatasetScript) = writePythonScriptToTemp(workDir)
+
+    //val vocabFile = new File(workDir,"vocab")
+    //val vocabFW = new FileWriter(vocabFile)
+    //voc.foreach(w => vocabFW.write(s"$w\n"))
+    //vocabFW.close()
+
+    val vectorsFile = new File(workDir, "vectors")
+    embeddings.toFile(vectorsFile)
+
+    val dataFile = new File(workDir, "model")
+    val outputFile = new File(workDir, "output")
+
+    val cmd1 = Seq(
+      python2,
+      makeDatasetScript,
+      "--vectors", vectorsFile.getAbsolutePath,
+      "--output", dataFile.getAbsolutePath,
+      "--vocab", vocabFile.getAbsolutePath,
+      "--w2v-format"
+    )
+    process.Process.apply(cmd1).!
+
+  } */
+
 }
 

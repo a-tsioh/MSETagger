@@ -23,7 +23,17 @@ class ExternalTokenizer(cmd: String) {
     println(results.take(3) mkString "\n")
     CorpusRaw(
       path,
-      results.filterNot(_.trim == "").map(s => SentenceRaw(s.split(" ").filterNot(_ == "").map(TokenRaw)))
+      results
+        .filterNot(_.trim == "")
+        .map(s =>
+          SentenceRaw(
+            s
+              .replace("\u00a0"," ")
+              .split(" ")
+              .filterNot(_ == "")
+              .map(TokenRaw)
+          )
+        )
     )
   }
 

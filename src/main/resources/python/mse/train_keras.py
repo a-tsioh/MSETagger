@@ -33,7 +33,7 @@ output_dir = sys.argv[5]
 
 
 neg_factors = [1] #, 5, 20, 30]
-deltaMin = 10.0  # will divide first loss to get actual deltaMin
+deltaMin = 5.0  # will divide first loss to get actual deltaMin
 
 DUMP_EVERY = 40
 
@@ -111,7 +111,7 @@ if __name__ == "__main__": # for corpus_file in glob.glob(dataDir): # todo: opti
             delta = 1000000
             previous_loss = None
             it = 0
-            while it < 20 or delta > deltaMin:  # todo: option
+            while it < 10 or delta > deltaMin:  # todo: option
                 loss = 0.
                 losses = []
                 np.random.shuffle(batchs)
@@ -126,7 +126,7 @@ if __name__ == "__main__": # for corpus_file in glob.glob(dataDir): # todo: opti
                 if previous_loss:
                     delta = previous_loss - loss
                 if it == 0:
-                    deltaMin = min(0.001,loss / deltaMin)
+                    deltaMin = min(0.1,loss / deltaMin) # 0.001 ?
                     print("deltaMin: ", deltaMin)
                 it += 1
                 if it % DUMP_EVERY == 0:
