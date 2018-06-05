@@ -94,7 +94,7 @@ class MorphoSyntacticEmbeddings(python3: String,
       w -> v.map(_.toDouble).toArray
     } .toMap
     resultSource.close()
-    result.updated("$$UNK$$",Array.fill(50){0.0})
+    result.updated("$$UNK$$",Array.fill(nbDim){0.0})
   }
 
 }

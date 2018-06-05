@@ -2,13 +2,13 @@ package fr.magistry.nlp.utils
 
 import java.io.{File, FileWriter}
 
-import fr.magistry.nlp.mse.Embeddings
+import fr.magistry.nlp.mse.{Embeddings, Settings}
 
 import scala.io.Source
 import scala.sys.process
 
 class Mimick(python2: String,
-             mem: String = "512",
+             mem: String = "4096",
              useGPU: Boolean = false) {
 
   private def writePythonScriptToTemp(dir: File): Array[String] = {

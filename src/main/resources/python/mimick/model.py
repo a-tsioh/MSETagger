@@ -23,7 +23,7 @@ POLYGLOT_UNK = unicode("<UNK>")
 PADDING_CHAR = "<*>"
 
 DEFAULT_CHAR_DIM = 20
-DEFAULT_HIDDEN_DIM = 50
+DEFAULT_HIDDEN_DIM = 10
 
 Instance = collections.namedtuple("Instance", ["chars", "word_emb"])
 
