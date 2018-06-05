@@ -94,8 +94,25 @@ class MorphoSyntacticEmbeddings(python3: String,
       w -> v.map(_.toDouble).toArray
     } .toMap
     resultSource.close()
-    result//.mapValues(v => {val sum = v.sum ; v map {_/sum} })
+    result.updated("$$UNK$$",Array.fill(50){0.0})
   }
 
 }
 
+object MorphoSyntacticEmbeddings {
+  def initFromSettings(mimick: Mimick): MorphoSyntacticEmbeddings =
+    new MorphoSyntacticEmbeddings(
+      Settings.python3,
+      Settings.embeddings.ndim,
+      Settings.embeddings.nbOccMin,
+      Settings.embeddings.ws,
+      true, // todo: as option
+      mimick)
+
+  def loadFromSettings(): MorphoSyntacticEmbeddings = {
+    val mimick = new Mimick(Settings.python2)
+    val mse = initFromSettings(mimick)
+    mse.fromFile(Settings.embeddings.file)
+    mse
+  }
+}

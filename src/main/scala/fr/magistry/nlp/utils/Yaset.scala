@@ -14,12 +14,12 @@ import fr.magistry.nlp.utils
 
 class Yaset(workdir: String,
             metric: String="accuracy",
-            updateEmbeddings: Boolean=true,
+            updateEmbeddings: Boolean=false,
             charEmbeddings: Boolean=true,
-            hlSize: Int=12,
-            batchSize: Int=16,
-            charEmbeddingsSize: Int = 8,
-            charLayerSize: Int = 9,
+            hlSize: Int=200,
+            batchSize: Int=4,
+            charEmbeddingsSize: Int = 10,
+            charLayerSize: Int = 10,
             devRatio: Double = 0.2,
             name: String="name",
             useLast: Boolean = false
@@ -90,7 +90,7 @@ class Yaset(workdir: String,
       Files.createDirectories(zipfs.getPath("model_001/tfmodels"))
       for( f <- FileUtils.listFiles(dataPath, null, true).asScala) {
         val inZipPath = "model_001" + f.asInstanceOf[File].getAbsolutePath.split("model_001").last
-        Files.copy(f.asInstanceOf[File].toPath, zipfs.getPath(inZipPath))
+        Files.copy(f.asInstanceOf[File].toPath, zipfs.getPath(inZipPath),StandardCopyOption.REPLACE_EXISTING)
       }
       zipfs.close()
     }
@@ -186,7 +186,7 @@ class Yaset(workdir: String,
        |dev_file_use = ${dev.nonEmpty}
        |dev_file_path = ${dev.getOrElse("unused")}
        |dev_random_ratio = $devRatio
-       |dev_random_seed_use = false
+       |dev_random_seed_use = true
        |dev_random_seed_value = 42
        |
        |preproc_lower_input = false
@@ -204,8 +204,8 @@ class Yaset(workdir: String,
        |[training]
        |
        |model_type = bilstm-char-crf
-       |max_iterations = 20
-       |patience = 75
+       |max_iterations = 200
+       |patience = 30
        |store_matrices_on_gpu = true
        |bucket_use = false
        |
@@ -213,7 +213,7 @@ class Yaset(workdir: String,
        |
        |trainable_word_embeddings = $updateEmbeddings
        |# NUmber of CPU cores to use during training
-       |cpu_cores = 20
+       |cpu_cores = 8
        |batch_size = $batchSize
        |
        |use_last = $useLast
@@ -283,7 +283,7 @@ object Yaset {
       }
     }
 
-    val data = readStream(stream, Nil).toArray
+    val data = readStream(stream, Nil).filter(_.tokens.nonEmpty).toArray
     src.close()
 
     CorpusAnnotated(

@@ -57,6 +57,7 @@ class Mimick(python2: String,
       "--vocab", vocabFile.getAbsolutePath,
       "--w2v-format"
     )
+    println(cmd1 mkString " ")
     process.Process.apply(cmd1).!
 
     val cmd2 = Seq(

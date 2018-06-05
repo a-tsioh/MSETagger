@@ -35,10 +35,10 @@ abstract class Embeddings(nbDim: Int, nOccMin: Int, ws: Int, lowerCase: Boolean)
 
   def fromFile(file: File): Unit = {
     val src = Source.fromFile(file)
-    data = src.getLines().drop(1).map { line =>
+    data = Map("$$UNK$$" -> Array.fill(50){0.0}) ++ src.getLines().drop(1).map { line =>
       val Array(w, v@_*) = line.split(" ")
       w -> v.map(_.toDouble).toArray
-    } .toMap
+    } // .toMap
     src.close()
   }
 

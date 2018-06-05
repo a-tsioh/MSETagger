@@ -25,6 +25,7 @@ package object datatypes {
     abstract sealed class CorpusLoadingFashion
     case object ReadConll extends CorpusLoadingFashion
     case object ExternalTokenizer extends CorpusLoadingFashion
+    case object BasicTokenizer extends CorpusLoadingFashion
    // case object CallOpenNLPTokenizer extends CorpusLoadingFashion // TODO: specify model (how ?)
   }
 }

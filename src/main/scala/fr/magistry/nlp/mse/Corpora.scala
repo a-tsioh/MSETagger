@@ -11,7 +11,7 @@ object Corpora {
   def loadConllCorpus(path: String): CorpusAnnotated = {
     def parseOneLine(line: String): TokenWithPOS = {
       val Array(_, form, lemma, tag1, tag2, _*) = line.trim.split("\t")
-      TokenWithPOS(form.replace(" ","_").replace('\u2009', '_'), tag1)
+      TokenWithPOS(form.replace(" ","_").replace('\u2009', '_'), tag2)
     }
 
     val src = Source.fromFile(path)
@@ -29,7 +29,7 @@ object Corpora {
 
     CorpusAnnotated(
       path,
-      consumeStream(dataStream, Nil).par.map { sentenceData =>
+      consumeStream(dataStream, Nil).par.filter(_.nonEmpty).map { sentenceData =>
         SentenceAnnotated(sentenceData.map(parseOneLine).toArray)
       } .toArray)
   }
@@ -66,14 +66,31 @@ object Corpora {
     else wordlist
   }
 
+  def tagsetOfCorpus(c:CorpusAnnotated): Array[String] = {
+    val tagset = c.content.foldLeft(Set.empty[String]) {(s, sent) =>
+      s ++ sent.tokens.map(_.pos)
+    }
+    tagset.toArray.sorted
+  }
+
   def writeConll(c: CorpusAnnotated, path: String) = {
     val fw = new FileWriter(path)
     c
       .content
       .par
-      .map {s => s.tokens.zipWithIndex.map {case (t,i)  => s"$i\t${t.form}\t_\t${t.pos}" } mkString "\n" }
+      .map {s => s.tokens.zipWithIndex.map {case (t,i)  => Seq((i+1).toString,t.form, t.form, t.pos, t.pos) mkString "\t" } mkString "\n" }
       .seq
       .foreach {s => fw.append(s) ; fw.append("\n\n") }
     fw.close()
+  }
+
+  def splitAnnotatedCorpus(c: CorpusAnnotated, prop: Double): (CorpusAnnotated, CorpusAnnotated) = {
+    import scala.util.Random
+    val r = new Random()
+    val randomized: Array[SentenceAnnotated] = r.shuffle(c.content.toList).toArray
+    val n = (randomized.length.toDouble * prop).toInt
+    val a = new CorpusAnnotated(c.name + "_1", randomized.take(n))
+    val b = new CorpusAnnotated(c.name + "_2", randomized.drop(n))
+    (a,b)
   }
 }
