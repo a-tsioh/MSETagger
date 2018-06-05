@@ -30,7 +30,7 @@ object BasicTokenizer {
     }
     val c = CorpusRaw(
       path,
-      sentences.take(100).toArray
+      sentences.toArray
     )
     data.close()
     c
