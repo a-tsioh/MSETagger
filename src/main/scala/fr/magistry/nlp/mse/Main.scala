@@ -76,7 +76,8 @@ object Main extends App {
   }
 
   def trainYaset(mse: Embeddings): Yaset = {
-    val yaset = new Yaset("/tmp/")
+    new File("/tmp/mse").mkdirs()
+    val yaset = new Yaset("/tmp/mse")
     yaset.train(mse, Settings.corpora.trainingSet, Settings.corpora.devSet)
     yaset
   }
