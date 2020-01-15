@@ -295,7 +295,16 @@ object Yaset {
 
   def unzip(source: String, target: File): Unit = {
     import collection.JavaConverters._
-    val zipfs = FileSystems.newFileSystem(URI.create(s"jar:file:$source"),Map("create" -> "false").asJava)
+	  println(s"trying to open zip file : $source")
+    val modelUri = URI.create(s"jar:file:$source")
+    val zipfs = try {
+      FileSystems.newFileSystem(modelUri,Map("create" -> "false").asJava)
+    }
+    catch {
+      case e: FileSystemAlreadyExistsException =>
+        FileSystems.getFileSystem(modelUri)
+    }
+
     val zip = new ZipFile(source)
     for(entry <- zip.entries().asScala) {
       if(entry.isDirectory) new File(target, entry.getName).mkdirs()
