@@ -16,11 +16,11 @@ class Yaset(workdir: String,
             metric: String="accuracy",
             updateEmbeddings: Boolean=false,
             charEmbeddings: Boolean=false,
-            hlSize: Int=40,
-            batchSize: Int=16,
+            hlSize: Int=60, //40
+            batchSize: Int=4, //16
             charEmbeddingsSize: Int = 10,
             charLayerSize: Int = 10,
-            devRatio: Double = 0.2,
+            devRatio: Double = 0.1,
             name: String="name",
             useLast: Boolean = false
            ) {
@@ -205,7 +205,7 @@ class Yaset(workdir: String,
        |
        |model_type = bilstm-char-crf
        |max_iterations = 200
-       |patience = 30
+       |patience = 50
        |store_matrices_on_gpu = true
        |bucket_use = false
        |
@@ -213,7 +213,7 @@ class Yaset(workdir: String,
        |
        |trainable_word_embeddings = $updateEmbeddings
        |# NUmber of CPU cores to use during training
-       |cpu_cores = 8
+       |cpu_cores = 12
        |batch_size = $batchSize
        |
        |use_last = $useLast
