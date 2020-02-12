@@ -21,6 +21,7 @@ object Corpora {
           stream match {
             case Stream.Empty => Stream.Empty
             case line #:: tail if line.trim.startsWith("#") => consumeStream(tail, acc)
+            case line #:: tail if line.trim.matches("^[0-9]+-.*") => consumeStream(tail, acc)
             case line #:: tail if line.trim.isEmpty => acc.reverse #:: consumeStream(tail, Nil)
             case line #:: tail =>
               consumeStream(tail, line :: acc)

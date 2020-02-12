@@ -106,7 +106,7 @@ object MorphoSyntacticEmbeddings {
       Settings.embeddings.ndim,
       Settings.embeddings.nbOccMin,
       Settings.embeddings.ws,
-      true, // todo: as option
+      false, // todo: as option
       mimick)
 
   def loadFromSettings(): MorphoSyntacticEmbeddings = {

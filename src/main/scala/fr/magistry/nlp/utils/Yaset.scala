@@ -15,11 +15,11 @@ import fr.magistry.nlp.utils
 class Yaset(workdir: String,
             metric: String="accuracy",
             updateEmbeddings: Boolean=false,
-            charEmbeddings: Boolean=false,
+            charEmbeddings: Boolean=true,
             hlSize: Int=60, //40
-            batchSize: Int=4, //16
-            charEmbeddingsSize: Int = 10,
-            charLayerSize: Int = 10,
+            batchSize: Int=16, //16
+            charEmbeddingsSize: Int = 15,
+            charLayerSize: Int = 15,
             devRatio: Double = 0.1,
             name: String="name",
             useLast: Boolean = false
@@ -205,7 +205,7 @@ class Yaset(workdir: String,
        |
        |model_type = bilstm-char-crf
        |max_iterations = 200
-       |patience = 50
+       |patience = 30
        |store_matrices_on_gpu = true
        |bucket_use = false
        |
@@ -225,8 +225,8 @@ class Yaset(workdir: String,
        |opt_gs_val = 5.0
        |
        |opt_decay_use = false
-       |opt_decay_rate = 0.9
-       |opt_decay_iteration = 1
+       |opt_decay_rate = 0.95
+       |opt_decay_iteration = 10
        |
        |feature_use = false
        |feature_embeddings_size = 10
