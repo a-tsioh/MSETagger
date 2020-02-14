@@ -17,7 +17,7 @@ class Yaset(workdir: String,
             updateEmbeddings: Boolean=false,
             charEmbeddings: Boolean=true,
             hlSize: Int=60, //40
-            batchSize: Int=16, //16
+            batchSize: Int=8, //16
             charEmbeddingsSize: Int = 15,
             charLayerSize: Int = 15,
             devRatio: Double = 0.1,
