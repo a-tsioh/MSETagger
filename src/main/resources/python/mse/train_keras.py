@@ -111,7 +111,7 @@ if __name__ == "__main__": # for corpus_file in glob.glob(dataDir): # todo: opti
             delta = 1000000
             previous_loss = None
             it = 0
-            while it < 200: # or delta > deltaMin:  # todo: option
+            while it < 5: # or delta > deltaMin:  # todo: option
                 loss = 0.
                 losses = []
                 np.random.shuffle(batchs)
